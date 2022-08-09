@@ -17,19 +17,18 @@ ini_set('memory_limit', -1);
 		   	$pluked_address = array_column($array_actual, 'address');
 
 			foreach($array_unique as $key => $val) { 
-			    $find_index = array_search($val, $pluked_address, true);
+			    
+			    $found_index = array_search($val, $pluked_address, true);
 
 		    	$temp_array[] = array(
 		        						'address' => $val , 
-		        						'living_type_string' => $array_actual[$find_index]['living_type_string'],
-		        						'living_type' => $array_actual[$find_index]['living_type']
+		        						'living_type_string' => $array_actual[$found_index]['living_type_string'],
+		        						'living_type' => $array_actual[$found_index]['living_type']
 		        					);
 
 
-				$find_index = 0;
+				$found_index = 0;
 
-
-				echo $val;
 			} 
 			
 			return $temp_array;
