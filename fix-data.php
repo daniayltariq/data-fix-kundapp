@@ -61,10 +61,11 @@ ini_set('memory_limit', -1);
                 	// Merging postal code with address to get unique values on the basis of address and postal 
 		            $row['address'] = $explode[0] . ' --- ' . $row['post_number'];
 
+		            $main_array[] = $row;
                 	
                 }
 
-                $unique = array_unique(array_column($row, 'address'));
+                $unique = array_unique(array_column($main_array, 'address'));
 
                 echo count($row);die();
 
