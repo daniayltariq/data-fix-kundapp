@@ -69,11 +69,11 @@ ini_set('memory_limit', -1);
 
                 // echo count($unique);die();
 
-		        $unique_addresses = unique_multidim_array($unique, $row, 'address');
+		        $unique_addresses = unique_multidim_array($unique, $main_array, 'address');
 
                 echo 'Unique count   => ' . count($unique_addresses);
 
-                print_r($unique_addresses);
+                // print_r($unique_addresses);
                 die();
 
                 foreach ($unique_addresses as $key => $value) {
