@@ -9,6 +9,33 @@ ini_set('memory_limit', -1);
         $password = "eiEhCIyL@3qwumNSF";
         $dbname = "kundkontaker";
 
+
+        function unique_multidim_array($array_unique, $array_actual, $index) { 
+		   	
+		   	$address = array_column($array_actual, 'address');
+		   	array_multisort($address, SORT_ASC, $array_actual);
+		   	$pluked_address = array_column($array_actual, 'address');
+
+			foreach($array_unique as $key => $val) { 
+			    $find_index = array_search($val, $pluked_address, true);
+
+		    	$temp_array[] = array(
+		        						'address' => $val , 
+		        						'living_type_string' => $array_actual[$find_index]['living_type_string'],
+		        						'living_type' => $array_actual[$find_index]['living_type']
+		        					);
+
+
+				$find_index = 0;
+
+
+				echo $val;
+			} 
+			
+			return $temp_array;
+
+		}
+
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
         // Check connection
@@ -16,21 +43,12 @@ ini_set('memory_limit', -1);
           die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT id, living_type_string, mobile, living_type, address FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and id = 6530485";
+        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null";
         $result = $conn->query($sql);
 
         //3.4M
 
         $count = 0;
-
-
-        // Nix numbers array
-        $nix_numbers = [];
-        $file = fopen("data/nix_numbers.txt", "r") or die("Unable to open file 3");
-                while (($input = fgets($file)) !== false) {
-                        $nix_numbers[] = $input;
-        }
-
         
         // echo $result->num_rows;die();
 
@@ -38,41 +56,37 @@ ini_set('memory_limit', -1);
 
                 while($row = $result->fetch_assoc()) {
 
-                        $living_type_string = $row['living_type_string'];
-                        $living_type = $row['living_type'];
-                        $address = $row['address'];
+                	$explode = explode(' lgh', $row['address']);
 
+                	// Merging postal code with address to get unique values on the basis of address and postal 
+		            $row['address'] = $explode[0] . ' --- ' . $row['post_number'];
 
+                	
+                }
 
-                        // Remove duplicates
-            //             foreach(array_unique($addresses) as $key => $address){
+                $array_unique = array_unique(array_column($row, 'address'));
 
-				        //     $input  = trim($address);
+		        $unique_addresses = unique_multidim_array($array_unique, $row, 'address');
 
-				        //     $result = explode(' lgh', $address);
+                echo 'Unique count   => ' . count($unique_addresses);
 
-				        //     if(strlen(trim($result[0])) <= 2)
-				        //         continue;
+                print_r($unique_addresses);
+                die();
 
-				        //     $unique_addresses[] = $result[0];
+                foreach ($unique_addresses as $key => $value) {
+                	
 
-				        // }
+                        $living_type_string = $value['living_type_string'];
 
+                        $living_type = $value['living_type'];
+                        
+                        // Removing postal code from address
+                        $clean_address = explode(' ---', $value['address']);
+		            	$address = $clean_address[0];
 
-
-
-
-
-                        if($row['mobile']){
-                        	$number = (int)substr((string)$row['mobile'], 2);
-							if(in_array($number, $nix_numbers))
-								$nix = 1;
-							else
-								$nix = 0;
-
-                        }
-
-                        $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."', nix = '". $nix ."' where address = '". $address . "' where address_type = 1321 and living_type is not null";
+                        
+                        echo $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."', nix = '". $nix ."' where address = '". $address . "' and address_type = 1321 and living_type is null";
+                        die();
 
                         $conn->query($sql);
 
