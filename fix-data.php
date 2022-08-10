@@ -89,7 +89,7 @@ ini_set('memory_limit', -1);
 		            	$address = $clean_address[0];
 
                         
-                        echo $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."' where address = '%". $address . "%' and address_type = 1321 and living_type is null";
+                        echo $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."' where `address` LIKE '%". $address . "%' and address_type = 1321 and living_type is null";
                         // die();
 
                         $conn->query($sql);
