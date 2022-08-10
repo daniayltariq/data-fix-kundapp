@@ -74,7 +74,7 @@ ini_set('memory_limit', -1);
 
                 echo 'Unique count   => ' . count($unique_addresses);
 
-                // print_r($unique_addresses);
+                print_r($unique_addresses);
                 die();
 
                 foreach ($unique_addresses as $key => $value) {
