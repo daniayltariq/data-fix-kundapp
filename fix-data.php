@@ -44,7 +44,7 @@ ini_set('memory_limit', -1);
           die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null and id < 1000000";
+        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null and id > 1000000";
         $result = $conn->query($sql);
 
         //3.4M
