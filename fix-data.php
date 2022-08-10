@@ -72,10 +72,10 @@ ini_set('memory_limit', -1);
 
 		        $unique_addresses = unique_multidim_array($unique, $main_array, 'address');
 
-                echo 'Unique count   => ' . count($unique_addresses);
+                // echo 'Unique count   => ' . count($unique_addresses);
 
-                print_r($unique_addresses);
-                die();
+                // print_r($unique_addresses);
+                // die();
 
                 foreach ($unique_addresses as $key => $value) {
                 	
@@ -89,8 +89,8 @@ ini_set('memory_limit', -1);
 		            	$address = $clean_address[0];
 
                         
-                        $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."', nix = '". $nix ."' where address = '". $address . "' and address_type = 1321 and living_type is null";
-                        die();
+                        $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."', nix = '". $nix ."' where address = '". $address . "%' and address_type = 1321 and living_type is null";
+                        // die();
 
                         $conn->query($sql);
 
