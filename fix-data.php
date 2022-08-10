@@ -44,7 +44,7 @@ ini_set('memory_limit', -1);
           die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null and id < 21";
+        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null and id < 3000000";
         $result = $conn->query($sql);
 
         //3.4M
@@ -74,7 +74,7 @@ ini_set('memory_limit', -1);
 
                 echo 'Unique count   => ' . count($unique_addresses) . '                 ';
 
-                print_r($unique_addresses);
+                // print_r($unique_addresses);
                 // die();
 
                 foreach ($unique_addresses as $key => $value) {
@@ -100,7 +100,7 @@ ini_set('memory_limit', -1);
 		            	$address = $clean_address[0];
 
                         
-                        echo $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."' where `address` LIKE '%". $address . "%' and address_type = 1321 and living_type is null";
+                        $sql = "Update customer_contacts set living_type = '".$living_type."', living_type_string = '". $living_type_string ."' where `address` LIKE '%". $address . "%' and address_type = 1321 and living_type is null";
                         // die();
 
                         $conn->query($sql);
