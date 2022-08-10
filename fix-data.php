@@ -24,6 +24,7 @@ ini_set('memory_limit', -1);
 
 		    	$temp_array[] = array(
 		        						'address' => $val , 
+		        						'id' => $array_actual[$found_index]['id'],
 		        						'living_type_string' => $array_actual[$found_index]['living_type_string'],
 		        						'living_type' => $array_actual[$found_index]['living_type']
 		        					);
@@ -44,7 +45,7 @@ ini_set('memory_limit', -1);
           die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null and id < 20";
+        $sql = "SELECT id, living_type_string, living_type, address, post_number FROM `customer_contacts_backup_4` where living_type IN (124959,124960,145340) and address is not null and id > 17 and id < 20";
         $result = $conn->query($sql);
 
         //3.4M
@@ -72,16 +73,27 @@ ini_set('memory_limit', -1);
 
 		        $unique_addresses = unique_multidim_array($unique, $main_array, 'address');
 
-                // echo 'Unique count   => ' . count($unique_addresses);
+                echo 'Unique count   => ' . count($unique_addresses) . '                 ';
 
                 // print_r($unique_addresses);
                 // die();
 
                 foreach ($unique_addresses as $key => $value) {
                 	
+                		if($value['id'] == 124959)
+                			$living_type_string = 'Bostadsrätt';
+                        
+                        else if($value['id'] == 	124960)
+                			$living_type_string = 'Hyresrätter';
+                        
+                        else if($value['id'] == 145340)
+                			$living_type_string = 'Övrig';
 
-                        $living_type_string = $value['living_type_string'];
+                		else
+                			$living_type_string = '';
 
+
+                        
                         $living_type = $value['living_type'];
                         
                         // Removing postal code from address
