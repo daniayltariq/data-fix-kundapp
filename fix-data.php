@@ -12,30 +12,30 @@ ini_set('memory_limit', -1);
 
         function unique_multidim_array($array_unique, $array_actual, $index) { 
 		   	
-		   	// To create a uniques addresses array from 3.4M data to 300k 
+                // To create a uniques addresses array from 3.4M data to 300k 
 
-		   	$address = array_column($array_actual, 'address');
-		   	array_multisort($address, SORT_ASC, $array_actual);
-		   	$pluked_address = array_column($array_actual, 'address');
+                $address = array_column($array_actual, 'address');
+                array_multisort($address, SORT_ASC, $array_actual);
+                $pluked_address = array_column($array_actual, 'address');
 
-			foreach($array_unique as $key => $val) { 
+                foreach($array_unique as $key => $val) { 
 			    
-			    $found_index = array_search($val, $pluked_address, true);
+                        $found_index = array_search($val, $pluked_address, true);
 
 		    	$temp_array[] = array(
-		        						'address' => $val , 
-		        						'living_type_string' => $array_actual[$found_index]['living_type_string'],
-		        						'living_type' => $array_actual[$found_index]['living_type']
-		        					);
+		      			'address' => $val , 
+					'living_type_string' => $array_actual[$found_index]['living_type_string'],
+					'living_type' => $array_actual[$found_index]['living_type']
+			             );
 
 
-				$found_index = 0;
+			$found_index = 0;
 
-			} 
+		} 
 			
-			return $temp_array;
+		return $temp_array;
 
-		}
+	}
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -70,25 +70,27 @@ ini_set('memory_limit', -1);
 
                 // echo count($unique);die();
 
-		        $unique_addresses = unique_multidim_array($unique, $main_array, 'address');
+	        $unique_addresses = unique_multidim_array($unique, $main_array, 'address');
 
-                // echo 'Unique count   => ' . count($unique_addresses) . '                 ';
+                echo 'Unique count   => ' . count($unique_addresses) . '                 ';
+
+                die();
 
                 // print_r($unique_addresses);die();
 
                 foreach ($unique_addresses as $key => $value) {
                 	
-                		if($value['living_type'] == 124959)
-                			$living_type_string = 'Bostadsrätt';
+        		if($value['living_type'] == 124959)
+        			$living_type_string = 'Bostadsrätt';
                         
-                        else if($value['living_type'] == 	124960)
-                			$living_type_string = 'Hyresrätter';
+                        else if($value['living_type'] == 124960)
+        			$living_type_string = 'Hyresrätter';
                         
                         else if($value['living_type'] == 145340)
-                			$living_type_string = 'Övrig';
+        			$living_type_string = 'Övrig';
 
-                		else
-                			$living_type_string = '';
+        		else
+        			$living_type_string = '';
 
 
                         
